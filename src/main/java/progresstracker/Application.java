@@ -41,6 +41,9 @@ public class Application {
                 case "statistics":
                     statistics();
                     break;
+                case "notify":
+                    notifyStudents();
+                    break;
                 case "back":
                     System.out.println("Enter 'exit' to exit the program.");
                     break;
@@ -51,6 +54,49 @@ public class Application {
             input = scanner.nextLine();
         }
         System.out.println("Bye!");
+    }
+
+    public void notifyStudents() {
+        int counter = 0;
+        for(Map.Entry<Integer,Student> entry : students.entrySet()){
+            boolean sameGuy = false;
+            if(entry.getValue().getJavaPoints() >= 600){
+                entry.getValue().setJavaPoints(0);
+                System.out.println("To: " + entry.getValue().getEmail());
+                System.out.println("Re: Your Learning Progress");
+                System.out.println("Hello, " + entry.getValue().getFirstName() + " " + entry.getValue().getLastName() + "!"+
+                        " You have accomplished our Java course!");
+                sameGuy = true;
+            }
+            if(entry.getValue().getDSApoints() >= 400){
+                entry.getValue().setDSApoints(0);
+                System.out.println("To: " + entry.getValue().getEmail());
+                System.out.println("Re: Your Learning Progress");
+                System.out.println("Hello, " + entry.getValue().getFirstName() + " " + entry.getValue().getLastName() + "!"+
+                        " You have accomplished our DSA course!");
+                sameGuy = true;
+            }
+            if(entry.getValue().getDBpoints() >= 480){
+                entry.getValue().setDBpoints(0);
+                System.out.println("To: " + entry.getValue().getEmail());
+                System.out.println("Re: Your Learning Progress");
+                System.out.println("Hello, " + entry.getValue().getFirstName() + " " + entry.getValue().getLastName() + "!"+
+                        " You have accomplished our Databases course!");
+                sameGuy = true;
+            }
+            if(entry.getValue().getSpringPoints() >= 550){
+                entry.getValue().setSpringPoints(0);
+                System.out.println("To: " + entry.getValue().getEmail());
+                System.out.println("Re: Your Learning Progress");
+                System.out.println("Hello, " + entry.getValue().getFirstName() + " " + entry.getValue().getLastName() + "!"+
+                        " You have accomplished our Spring course!");
+                sameGuy = true;
+            }
+            if(sameGuy) {
+                counter++;
+            }
+        }
+        System.out.println("Total "+ counter + " students have been notified.");
     }
 
     public void statistics() {
@@ -64,16 +110,16 @@ public class Application {
         String input = scanner.nextLine();
         while(!input.equals("back")){
             switch (input){
-                case "java":
+                case "java","Java":
                     Statistics.printInformationAboutSubject("Java");
                     break;
-                case "dsa":
+                case "dsa","DSA":
                     Statistics.printInformationAboutSubject("DSA");
                     break;
-                case "databases":
+                case "databases","Databases":
                     Statistics.printInformationAboutSubject("Databases");
                     break;
-                case "spring":
+                case "spring","Spring":
                     Statistics.printInformationAboutSubject("Spring");
                     break;
                 default:

@@ -30,9 +30,10 @@ public class Statistics {
         List<String> min = findMin(coursePopularity);
         if(min.contains("n/a"))
             return "n/a";
-        return min.stream()
+        String minResult = min.stream()
                 .filter(s -> !max.contains(s))
                 .reduce("", (a, b) -> a + b + ", ");
+        return minResult.isEmpty() ? "n/a" : minResult;
     }
 
     public static String mostActiveCourse(){
@@ -61,9 +62,10 @@ public class Statistics {
         List<String> min = findMin(courseActivity);
         if(min.contains("n/a"))
             return "n/a";
-        return min.stream()
+        String minResult = min.stream()
                 .filter(s -> !max.contains(s))
                 .reduce("", (a, b) -> a + b + ", ");
+        return minResult.isEmpty() ? "n/a" : minResult;
     }
 
     public static List<String> findMin(Map<String, Long> course) {
@@ -98,7 +100,7 @@ public class Statistics {
 
     public static List<String> findMaxDouble(Map<String,Double> courseDifficulty){
         Double max = courseDifficulty.values().stream().max(Double::compareTo).orElse(0.0);
-        if(max == 0)
+        if(max == 0 || max.isNaN())
             return List.of("n/a");
         return courseDifficulty.entrySet().stream()
                 .filter(e -> e.getValue().equals(max))
@@ -111,9 +113,10 @@ public class Statistics {
         List<String> min = findMinDouble(courseDifficulty);
         if(min.contains("n/a"))
             return "n/a";
-        return min.stream()
+        String minResult = min.stream()
                 .filter(s -> !max.contains(s))
                 .reduce("", (a, b) -> a + b + ", ");
+        return minResult.isEmpty() ? "n/a" : minResult;
     }
 
     public static List<Student> informationAboutSubject(String subject){
@@ -122,24 +125,20 @@ public class Statistics {
         List<Student> bestStudents = new ArrayList<>();
         switch (subject) {
             case "Java" -> bestStudents = students.values().stream()
-                    .sorted(Comparator.comparing(Student::getJavaPoints).reversed())
                     .filter(s -> s.getJavaPoints() > 0 )
-                    .limit(3)
+                    .sorted(Comparator.comparing(Student::getJavaPoints).reversed())
                     .collect(Collectors.toList());
             case "DSA" -> bestStudents = students.values().stream()
                     .filter(s -> s.getDSApoints() > 0)
                     .sorted(Comparator.comparing(Student::getDSApoints).reversed())
-                    .limit(3)
                     .collect(Collectors.toList());
             case "Databases" -> bestStudents = students.values().stream()
                     .filter(s -> s.getDBpoints() > 0)
                     .sorted(Comparator.comparing(Student::getDBpoints).reversed())
-                    .limit(3)
                     .collect(Collectors.toList());
             case "Spring" -> bestStudents = students.values().stream()
                     .filter(s -> s.getSpringPoints() > 0)
                     .sorted(Comparator.comparing(Student::getSpringPoints).reversed())
-                    .limit(3)
                     .collect(Collectors.toList());
 
         }
@@ -149,8 +148,8 @@ public class Statistics {
 
     public static void printInformationAboutSubject(String subject){
         List<Student> bestStudents = informationAboutSubject(subject);
-        for(Map.Entry<Integer, Student> entry: students.entrySet()){
-            for(int i = 0; i< bestStudents.size(); i++){
+        for(int i = 0; i < bestStudents.size(); i++){
+            for(Map.Entry<Integer, Student> entry: students.entrySet()){
                 if(entry.getValue().equals(bestStudents.get(i))){
                     switch(subject){
                         case "Java": {
@@ -178,7 +177,7 @@ public class Statistics {
                             BigDecimal decimal  = BigDecimal.valueOf(((double) entry.getValue().getSpringPoints()/550)*100);
                             decimal = decimal.setScale(1, BigDecimal.ROUND_HALF_UP);
                             System.out.println(entry.getKey() + "       " + entry.getValue().getSpringPoints()
-                                + "       " +decimal + "%");
+                                    + "       " +decimal + "%");
                             break;
                         }
                     }
