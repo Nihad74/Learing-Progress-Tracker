@@ -11,6 +11,11 @@ public class Student {
     private int SpringPoints;
     private int DBpoints;
 
+    private int DSAsubmissions;
+    private int JavaSubmissions;
+    private int SpringSubmissions;
+    private int DBsubmissions;
+
     public Student(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -74,15 +79,55 @@ public class Student {
         this.DBpoints = DBpoints;
     }
 
-    public void setPoints(int idAndPoint, int idAndPoint1, int idAndPoint2) {
-        setJavaPoints( getJavaPoints() + idAndPoint);
-        setDSApoints(getDSApoints() + idAndPoint1);
-        setDBpoints(getDBpoints()+ idAndPoint2);
-        setSpringPoints(getSpringPoints()+ idAndPoint2);
+    public void setPoints(int javaPoints, int dsaPoints, int dbPoints, int springPoints) {
+        if(javaPoints > 0){
+            JavaSubmissions++;
+        }
+        if(dsaPoints > 0){
+            DSAsubmissions++;
+        }
+        if(dbPoints > 0){
+            DBsubmissions++;
+        }
+        if(springPoints > 0){
+            SpringSubmissions++;
+        }
+        setJavaPoints( getJavaPoints() + javaPoints);
+        setDSApoints(getDSApoints() + dsaPoints);
+        setDBpoints(getDBpoints()+ dbPoints);
+        setSpringPoints(getSpringPoints()+ springPoints);
     }
 
     public String getPoints(){
         return "Java=%d; DSA=%d; Databases=%d; Spring=%d".formatted(getJavaPoints(), getDSApoints(),
                 getDBpoints(), getSpringPoints());
+    }
+
+    public int getDSAsubmissions() {
+        return DSAsubmissions;
+    }
+
+    public int getJavaSubmissions() {
+        return JavaSubmissions;
+    }
+
+    public int getSpringSubmissions() {
+        return SpringSubmissions;
+    }
+
+    public int getDBsubmissions() {
+        return DBsubmissions;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof Student){
+            Student student = (Student) obj;
+            return student.getFirstName().equals(this.getFirstName()) &&
+                    student.getLastName().equals(this.getLastName()) &&
+                    student.getEmail().equals(this.getEmail());
+
+        }
+        return false;
     }
 }

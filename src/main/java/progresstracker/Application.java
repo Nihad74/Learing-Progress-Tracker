@@ -9,7 +9,7 @@ public class Application {
     private Scanner scanner;
     private static int id;
 
-    private Map<Integer, Student> students;
+    public static Map<Integer, Student> students;
 
     public Application() {
         scanner = new Scanner(System.in);
@@ -38,6 +38,9 @@ public class Application {
                 case "find":
                     find();
                     break;
+                case "statistics":
+                    statistics();
+                    break;
                 case "back":
                     System.out.println("Enter 'exit' to exit the program.");
                     break;
@@ -48,6 +51,38 @@ public class Application {
             input = scanner.nextLine();
         }
         System.out.println("Bye!");
+    }
+
+    public void statistics() {
+        System.out.println("Type the name of a course to see details or 'back' to quit:");
+        System.out.println("Most popular: "+ Statistics.mostPopularCourse());
+        System.out.println("Least popular: "+ Statistics.leastPopularCourse());
+        System.out.println("Highest activity: "+ Statistics.mostActiveCourse());
+        System.out.println("Lowest activity: "+ Statistics.leastActiveCourse());
+        System.out.println("Easiest course: "+ Statistics.easiestCourse());
+        System.out.println("Hardest course: "+ Statistics.hardestCourse());
+        String input = scanner.nextLine();
+        while(!input.equals("back")){
+            switch (input){
+                case "java":
+                    Statistics.printInformationAboutSubject("Java");
+                    break;
+                case "dsa":
+                    Statistics.printInformationAboutSubject("DSA");
+                    break;
+                case "databases":
+                    Statistics.printInformationAboutSubject("Databases");
+                    break;
+                case "spring":
+                    Statistics.printInformationAboutSubject("Spring");
+                    break;
+                default:
+                    System.out.println("Unknown course.");
+                    break;
+            }
+            input = scanner.nextLine();
+        }
+
     }
 
     public void addPoints() {
@@ -64,7 +99,7 @@ public class Application {
                     if (students.get(idAndPoints[0]) == null) {
                         System.out.printf("No student is found for id=%d\n", idAndPoints[0]);
                     } else {
-                        students.get(idAndPoints[0]).setPoints(idAndPoints[1], idAndPoints[2], idAndPoints[3]);
+                        students.get(idAndPoints[0]).setPoints(idAndPoints[1], idAndPoints[2], idAndPoints[3], idAndPoints[4]);
                         System.out.println("Points updated.");
 
                     }
